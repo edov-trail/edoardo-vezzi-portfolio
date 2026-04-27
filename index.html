@@ -1,0 +1,1917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edoardo Vezzi — Journalist & Photographer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fg: #fff;
+    --bg: #000;
+    --muted: #8a8a8a;
+    --border: #fff;
+    --font: 'Instrument Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    --size-nav: 0.875rem;     /* 14px */
+    --size-body: 0.875rem;    /* 14px */
+    --size-small: 0.8125rem;  /* 13px */
+    --header-h: 54px;
+    --footer-h: 48px;
+    --side-pad: 24px;
+  }
+
+  html { font-size: 16px; }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    font-family: var(--font);
+    font-size: var(--size-body);
+    color: var(--fg);
+    background: var(--bg);
+    line-height: 1.4;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  /* HEADER */
+  header {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--header-h);
+    padding: 0 var(--side-pad);
+    display: flex;
+    align-items: center;
+    gap: 28px;
+    background: var(--bg);
+    z-index: 100;
+    font-size: var(--size-nav);
+  }
+
+  .logo {
+    font-weight: 700;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    margin-right: 12px;
+  }
+
+  nav {
+    display: flex;
+    gap: 26px;
+  }
+
+  nav a {
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+  }
+
+  nav a:hover { opacity: 0.5; }
+
+  nav a.active {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+  }
+
+  .socials {
+    margin-left: auto;
+    display: flex;
+    gap: 18px;
+    align-items: center;
+  }
+
+  .socials a {
+    display: inline-flex;
+    color: inherit;
+    transition: opacity 0.15s ease;
+  }
+
+  .socials a:hover { opacity: 0.5; }
+
+  /* Hamburger (mobile only) */
+  .hamburger {
+    display: none;
+    margin-left: auto;
+    background: none;
+    border: none;
+    padding: 8px;
+    cursor: pointer;
+    flex-direction: column;
+    gap: 5px;
+    z-index: 200;
+  }
+  .hamburger span {
+    display: block;
+    width: 22px;
+    height: 1.5px;
+    background: var(--fg);
+    transition: transform 0.25s ease, opacity 0.2s ease;
+  }
+  .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+  .hamburger.open span:nth-child(2) { opacity: 0; }
+  .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+  /* Mobile menu overlay */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    background: var(--bg);
+    z-index: 150;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 48px;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+  .mobile-menu.open {
+    display: flex;
+    opacity: 1;
+  }
+  .mobile-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: center;
+    font-size: 1.5rem;
+  }
+  .mobile-nav a {
+    cursor: pointer;
+    color: inherit;
+  }
+  .mobile-nav a.active {
+    text-decoration: underline;
+    text-underline-offset: 6px;
+  }
+  .mobile-socials {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+  }
+  .mobile-socials a { color: inherit; }
+
+  /* MAIN */
+  main {
+    position: absolute;
+    top: var(--header-h);
+    bottom: var(--footer-h);
+    left: 0; right: 0;
+    overflow: hidden;
+  }
+
+  .view {
+    display: none;
+    height: 100%;
+    padding: 12px var(--side-pad) 0;
+    position: relative;
+  }
+
+  .view.active { display: block; }
+
+  #view-about.active {
+    display: block;
+    overflow-y: auto;
+    padding-bottom: 48px;
+  }
+
+  /* Mobile vertical photo scroll (activated in media query below) */
+  .mobile-stack { display: none; }
+  .mobile-stack .intro {
+    font-size: var(--size-small);
+    line-height: 1.5;
+    padding: 8px 0 20px;
+  }
+  .mobile-stack .intro .eyebrow {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 2px;
+  }
+  .mobile-stack .intro .byline {
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+  .mobile-stack .intro p + p { margin-top: 12px; }
+
+  .mobile-stack .photo-block {
+    margin-bottom: 28px;
+  }
+  .mobile-stack .photo-block img {
+    width: 100%;
+    height: auto;
+    display: block;
+    background: #111;
+  }
+  .mobile-stack .photo-block .diptych-mobile {
+    display: flex;
+    gap: 4px;
+  }
+  .mobile-stack .photo-block .diptych-mobile img {
+    width: 50%;
+    height: auto;
+  }
+  .mobile-stack .photo-block .caption {
+    font-size: var(--size-small);
+    color: var(--muted);
+    line-height: 1.45;
+    margin-top: 8px;
+  }
+  .mobile-stack .photo-block .interlude {
+    font-size: var(--size-small);
+    line-height: 1.5;
+    margin: 20px 0;
+  }
+
+  /* SHARED: split layout (text left, photo right) */
+  .split {
+    display: grid;
+    grid-template-columns: minmax(220px, 280px) 1fr;
+    gap: 40px;
+    height: 100%;
+  }
+
+  .split-text {
+    font-size: var(--size-small);
+    line-height: 1.5;
+    padding-top: 2px;
+    height: 100%;
+    overflow-y: auto;
+    padding-right: 4px;
+    padding-bottom: 8px;
+    scrollbar-width: thin;
+    scrollbar-color: #333 transparent;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .split-text .top-block { flex: 0 0 auto; }
+  .split-text .spacer { flex: 1 1 auto; min-height: 16px; }
+  .split-text .bottom-block {
+    flex: 0 0 auto;
+    color: var(--muted);
+  }
+
+  .split-text::-webkit-scrollbar { width: 6px; }
+  .split-text::-webkit-scrollbar-track { background: transparent; }
+  .split-text::-webkit-scrollbar-thumb { background: #333; border-radius: 3px; }
+
+  .split-text p + p { margin-top: 14px; }
+
+  .split-text .eyebrow {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 2px;
+  }
+
+  .split-text .byline {
+    font-weight: 600;
+    margin-bottom: 14px;
+  }
+
+  .split-photo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    cursor: pointer;
+    min-height: 0;
+    min-width: 0;
+    overflow: hidden;
+  }
+
+  /* Invisible left/right click zones with directional cursors.
+     Arrow-only cursor with a subtle drop shadow for visibility on light backgrounds. */
+  .nav-zone {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    z-index: 2;
+  }
+  .nav-zone.prev {
+    left: 0;
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'><defs><filter id='s' x='-50%25' y='-50%25' width='200%25' height='200%25'><feDropShadow dx='0' dy='0' stdDeviation='1' flood-color='black' flood-opacity='0.9'/></filter></defs><path filter='url(%23s)' d='M 18 4 L 8 14 L 18 24' stroke='white' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>") 14 14, pointer;
+  }
+  .nav-zone.next {
+    right: 0;
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 28 28'><defs><filter id='s' x='-50%25' y='-50%25' width='200%25' height='200%25'><feDropShadow dx='0' dy='0' stdDeviation='1' flood-color='black' flood-opacity='0.9'/></filter></defs><path filter='url(%23s)' d='M 10 4 L 20 14 L 10 24' stroke='white' stroke-width='2.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/></svg>") 14 14, pointer;
+  }
+
+  /* Slide transition: old slides out, new slides in */
+  @keyframes slideOutLeft  { from { transform: translateX(0); }    to { transform: translateX(-100%); opacity: 0; } }
+  @keyframes slideOutRight { from { transform: translateX(0); }    to { transform: translateX(100%);  opacity: 0; } }
+  @keyframes slideInRight  { from { transform: translateX(100%);  opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+  @keyframes slideInLeft   { from { transform: translateX(-100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+  .slide-out-left  { animation: slideOutLeft  0.32s ease forwards; }
+  .slide-out-right { animation: slideOutRight 0.32s ease forwards; }
+  .slide-in-right  { animation: slideInRight  0.32s ease forwards; }
+  .slide-in-left   { animation: slideInLeft   0.32s ease forwards; }
+
+  .split-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  /* Diptych: two images inside the photo area */
+  .diptych {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .diptych.side-by-side { flex-direction: row; }
+  .diptych.stacked { flex-direction: column; }
+
+  .diptych img {
+    display: block;
+    object-fit: contain;
+    min-width: 0;
+    min-height: 0;
+    user-select: none;
+    -webkit-user-drag: none;
+  }
+
+  .diptych.side-by-side img {
+    width: calc(50% - 4px);
+    height: 100%;
+  }
+
+  .diptych.stacked img {
+    width: 100%;
+    height: calc(50% - 4px);
+  }
+
+  .split-photo .advance-arrow,
+  .split-photo .back-arrow {
+    display: none;
+  }
+
+  /* HOME */
+  .home-caption {
+    margin-top: 10px;
+    font-size: var(--size-small);
+    color: var(--muted);
+  }
+
+  /* PROJECTS GRID */
+  .grid-view {
+    height: 100%;
+    overflow-y: auto;
+    padding-bottom: 24px;
+  }
+
+  .projects-grid {
+    columns: 3;
+    column-gap: 32px;
+    padding: 8px 0 24px;
+  }
+
+  .project-card {
+    cursor: pointer;
+    display: block;
+    break-inside: avoid;
+    margin-bottom: 48px;
+  }
+
+  .project-card .thumb {
+    overflow: hidden;
+    background: #111;
+    margin-bottom: 10px;
+  }
+
+  .project-card .thumb img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: opacity 0.25s ease;
+  }
+
+  .project-card:hover .thumb img { opacity: 0.75; }
+
+  .project-card .meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: var(--size-small);
+  }
+
+  .project-card .title { font-weight: 600; }
+  .project-card .year { color: var(--muted); }
+
+  /* ASSIGNMENTS LIST */
+  .assignments-list {
+    list-style: none;
+    max-width: 900px;
+    padding: 4px 0 24px;
+  }
+
+  .assignment-group-heading {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.8125rem;
+    padding: 28px 0 8px;
+    border-bottom: 1px solid #222;
+    margin-bottom: 4px;
+  }
+
+  .assignment-group-heading:first-child { padding-top: 0; }
+
+  .assignment-row {
+    border-bottom: 1px solid #222;
+    font-size: var(--size-small);
+    transition: background 0.15s ease;
+  }
+
+  .assignment-row:hover { background: #0a0a0a; }
+
+  .assignment-link {
+    display: grid;
+    grid-template-columns: 70px 1fr 220px 24px;
+    gap: 20px;
+    align-items: baseline;
+    padding: 14px 0;
+    color: inherit;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .assignment-row .date { color: var(--muted); font-variant-numeric: tabular-nums; }
+  .assignment-row .title { font-weight: 600; }
+  .assignment-row .publication { color: var(--muted); font-style: italic; }
+  .assignment-row .arrow { text-align: right; color: var(--muted); }
+
+  /* ARTICLE DETAIL */
+  .article-detail {
+    height: 100%;
+    overflow-y: auto;
+    padding-bottom: 40px;
+  }
+
+  .article-header {
+    max-width: 680px;
+    padding: 8px 0 32px;
+    font-size: var(--size-small);
+    line-height: 1.55;
+  }
+
+  .article-header .eyebrow {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    margin-bottom: 10px;
+  }
+
+  .article-header h1 {
+    font-size: 1.375rem;
+    font-weight: 600;
+    line-height: 1.25;
+    margin-bottom: 10px;
+  }
+
+  .article-header .meta-line {
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+
+  .article-description {
+    color: #ddd;
+    line-height: 1.55;
+  }
+
+  .article-description a {
+    color: inherit;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 1px;
+    transition: opacity 0.15s ease;
+  }
+
+  .article-description a:hover { opacity: 0.6; }
+
+  .article-photos {
+    columns: 3;
+    column-gap: 16px;
+  }
+
+  .article-photos .photo-item {
+    display: block;
+    break-inside: avoid;
+    margin-bottom: 16px;
+    cursor: pointer;
+  }
+
+  .article-photos img {
+    width: 100%;
+    height: auto;
+    display: block;
+    background: #111;
+    transition: opacity 0.2s ease;
+  }
+
+  .article-photos .photo-item:hover img { opacity: 0.75; }
+
+  .article-photos .photo-item .caption {
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.4;
+    margin-top: 8px;
+  }
+
+  /* ABOUT */
+  .about-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 560px) minmax(0, 460px);
+    gap: 56px;
+    align-items: start;
+    padding: 8px 0 24px;
+    max-width: 1180px;
+  }
+
+  .about-photo img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .about-text {
+    font-size: var(--size-small);
+    line-height: 1.55;
+    padding-top: 2px;
+  }
+
+  .about-block { margin-bottom: 44px; }
+  .about-block:last-child { margin-bottom: 0; }
+
+  .about-heading {
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 14px;
+  }
+
+  .about-block p + p { margin-top: 10px; }
+
+  .about-block a {
+    color: inherit;
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 1px;
+    transition: opacity 0.15s ease;
+  }
+
+  .about-block a:hover { opacity: 0.6; }
+
+  .about-copyright {
+    position: absolute;
+    right: var(--side-pad);
+    bottom: 12px;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  /* FOOTER (page counter + project nav) */
+  footer {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    height: var(--footer-h);
+    padding: 0 var(--side-pad);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--bg);
+    font-size: var(--size-small);
+    z-index: 100;
+  }
+
+  .footer-left,
+  .footer-center,
+  .footer-right {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+  }
+
+  .footer-center { justify-content: center; flex: 0 1 auto; }
+
+  footer .nav-link {
+    cursor: pointer;
+    transition: opacity 0.15s ease;
+  }
+
+  footer .nav-link:hover { opacity: 0.5; }
+
+  footer .counter { font-variant-numeric: tabular-nums; }
+
+  /* Lightbox */
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.96);
+    z-index: 1000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 56px;
+    cursor: pointer;
+  }
+
+  .lightbox.active { display: flex; }
+
+  .lightbox img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    user-select: none;
+    -webkit-user-drag: none;
+    cursor: default;
+  }
+
+  .lightbox-close,
+  .lightbox-prev,
+  .lightbox-next,
+  .lightbox-counter {
+    position: absolute;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    user-select: none;
+    padding: 12px;
+    line-height: 1;
+    background: none;
+    border: none;
+    font-family: inherit;
+  }
+
+  .lightbox-close { top: 12px; right: 12px; font-size: 1.75rem; }
+  .lightbox-prev { left: 12px; top: 50%; transform: translateY(-50%); font-size: 1.875rem; }
+  .lightbox-next { right: 12px; top: 50%; transform: translateY(-50%); font-size: 1.875rem; }
+
+  .lightbox-counter {
+    bottom: 16px;
+    left: 24px;
+    font-size: 0.8125rem;
+    cursor: default;
+    font-variant-numeric: tabular-nums;
+    opacity: 0.7;
+  }
+
+  .lightbox-close:hover,
+  .lightbox-prev:hover,
+  .lightbox-next:hover { opacity: 0.6; }
+
+  /* RESPONSIVE */
+
+  /* Tablet / narrower desktop */
+  @media (max-width: 1200px) {
+    .projects-grid { columns: 2; }
+    .article-photos { columns: 2; }
+    .assignment-link {
+      grid-template-columns: 60px 1fr 180px 20px;
+      gap: 16px;
+    }
+    .about-layout {
+      grid-template-columns: minmax(0, 440px) minmax(0, 400px);
+      gap: 40px;
+    }
+  }
+
+  /* Short viewports (e.g. phones in landscape) */
+  @media (max-height: 500px) {
+    :root { --header-h: 44px; --footer-h: 36px; }
+    .split-text { font-size: 0.75rem; }
+    .home-caption { max-width: 260px; }
+  }
+
+  /* Mobile */
+  @media (max-width: 900px) {
+    :root { --side-pad: 16px; }
+
+    /* On mobile, hide the desktop split layout and show a vertical stack */
+    #view-home .split,
+    #view-project-detail .split { display: none; }
+
+    #view-home .home-caption { display: none; }
+
+    #view-home .mobile-stack,
+    #view-project-detail .mobile-stack { display: block; }
+
+    #view-home.active,
+    #view-project-detail.active {
+      overflow-y: auto;
+      padding-bottom: 48px;
+    }
+
+    header {
+      flex-wrap: nowrap;
+      gap: 14px;
+      padding: 10px 16px;
+      height: auto;
+      border-bottom: 1px solid #222;
+    }
+
+    header > nav,
+    header > .socials { display: none; }
+
+    .hamburger { display: flex; }
+
+    nav { gap: 14px; flex-wrap: wrap; font-size: 0.8125rem; }
+
+    main { top: 88px; bottom: 44px; }
+
+    .split {
+      grid-template-columns: 1fr;
+      gap: 16px;
+      overflow-y: auto;
+      height: 100%;
+    }
+
+    .split-photo { height: 55vh; }
+
+    .projects-grid { columns: 2; column-gap: 16px; }
+
+    .projects-grid { columns: 1; column-gap: 16px; }
+
+    .assignment-link {
+      grid-template-columns: 1fr;
+      gap: 2px;
+    }
+
+    .article-photos { columns: 1; }
+
+    .lightbox { padding: 24px; }
+
+    .about-layout {
+      grid-template-columns: 1fr;
+      gap: 28px;
+    }
+
+    footer { padding: 0 16px; font-size: 0.75rem; }
+    .footer-center { display: none; }
+
+    /* Hide page counter footer on home and project-detail
+       since on mobile we scroll vertically through all photos */
+    body.mobile-stacked footer { display: none; }
+    body.mobile-stacked main { bottom: 0; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo" data-view="home">EDOARDO VEZZI</div>
+  <nav>
+    <a data-view="home">home</a>
+    <a data-view="projects">personal projects</a>
+    <a data-view="assignments">assignments</a>
+    <a data-view="about">about</a>
+  </nav>
+  <div class="socials">
+    <a href="https://www.instagram.com/edoardovezzi/" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/edoardo-vezzi-b62a5a17a/" target="_blank" rel="noopener" aria-label="LinkedIn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+    </a>
+    <a href="https://www.youtube.com/@edoardovezzi" target="_blank" rel="noopener" aria-label="YouTube">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+    </a>
+  </div>
+  <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<!-- Mobile overlay menu -->
+<div class="mobile-menu" id="mobile-menu" aria-hidden="true">
+  <nav class="mobile-nav">
+    <a data-view="home">home</a>
+    <a data-view="projects">personal projects</a>
+    <a data-view="assignments">assignments</a>
+    <a data-view="about">about</a>
+  </nav>
+  <div class="mobile-socials">
+    <a href="https://www.instagram.com/edoardovezzi/" target="_blank" rel="noopener" aria-label="Instagram">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+    </a>
+    <a href="https://www.linkedin.com/in/edoardo-vezzi-b62a5a17a/" target="_blank" rel="noopener" aria-label="LinkedIn">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+    </a>
+    <a href="https://www.youtube.com/@edoardovezzi" target="_blank" rel="noopener" aria-label="YouTube">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg>
+    </a>
+  </div>
+</div>
+
+<main>
+
+  <!-- HOME -->
+  <section id="view-home" class="view">
+    <div class="split">
+      <div class="split-text">
+        <p>Born in 1997, I am an Italian journalist and photographer based in Rome.</p>
+      </div>
+      <div class="split-photo" id="home-photo">
+        <img id="home-img" alt="">
+        <div class="nav-zone prev" data-dir="prev"></div>
+        <div class="nav-zone next" data-dir="next"></div>
+      </div>
+    </div>
+    <div class="home-caption" id="home-caption" style="position:absolute; left: var(--side-pad); bottom: 12px; max-width: 280px;"></div>
+
+    <!-- Mobile stack: rendered dynamically by JS -->
+    <div class="mobile-stack" id="home-mobile-stack"></div>
+  </section>
+
+  <!-- PERSONAL PROJECTS GRID -->
+  <section id="view-projects" class="view">
+    <div class="grid-view">
+      <div class="projects-grid" id="projects-grid"></div>
+    </div>
+  </section>
+
+  <!-- PROJECT DETAIL -->
+  <section id="view-project-detail" class="view">
+    <div class="split">
+      <div class="split-text" id="project-text"></div>
+      <div class="split-photo" id="project-photo">
+        <div id="project-photo-inner" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;"></div>
+        <div class="nav-zone prev" data-dir="prev"></div>
+        <div class="nav-zone next" data-dir="next"></div>
+      </div>
+    </div>
+
+    <!-- Mobile stack: rendered dynamically by JS -->
+    <div class="mobile-stack" id="project-mobile-stack"></div>
+  </section>
+
+  <!-- ASSIGNMENTS LIST -->
+  <section id="view-assignments" class="view">
+    <div class="grid-view">
+      <ul class="assignments-list" id="assignments-list"></ul>
+    </div>
+  </section>
+
+  <!-- ARTICLE DETAIL -->
+  <section id="view-article-detail" class="view">
+    <div class="article-detail" id="article-detail"></div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="view-about" class="view">
+    <div class="about-layout">
+      <div class="about-photo">
+        <img src="./about/portrait.jpg" alt="Edoardo Vezzi">
+      </div>
+      <div class="about-text">
+        <div class="about-block">
+          <div class="about-heading">About</div>
+          <p>Born in 1997, I am a journalist and photographer based in Rome. I hold an MA in International Relations from Sapienza University of Rome and a BA in Communication Studies from Roma Tre University.</p>
+        </div>
+        <div class="about-block">
+          <div class="about-heading">Contacts</div>
+          <p>E-mail: <a href="mailto:edo.vezzi@gmail.com">edo.vezzi@gmail.com</a></p>
+          <p>Tel.: +39 339 2554804</p>
+        </div>
+      </div>
+    </div>
+    <div class="about-copyright">© Edoardo Vezzi. All rights reserved.</div>
+  </section>
+
+</main>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
+  <button class="lightbox-close" id="lightbox-close" aria-label="Close">×</button>
+  <button class="lightbox-prev" id="lightbox-prev" aria-label="Previous image">←</button>
+  <img id="lightbox-img" alt="">
+  <button class="lightbox-next" id="lightbox-next" aria-label="Next image">→</button>
+  <div class="lightbox-counter" id="lightbox-counter"></div>
+</div>
+
+<footer>
+  <div class="footer-left">
+    <span id="page-counter"></span>
+  </div>
+  <div class="footer-center" id="footer-center"></div>
+  <div class="footer-right" id="footer-right"></div>
+</footer>
+
+<script>
+  // ----- DATA -----
+  // Replace these with your real content. Image URLs use Lorem Picsum as placeholders
+  // (stable seeds so you always get the same image for the same seed).
+
+  const homePhotos = [
+    { src: './home/01.jpg', caption: 'Fans celebrating the Italian National Football Team\u2019s victory at the UEFA European Championship. Rome, Italy, 2021.' },
+    { src: './home/02.jpg', caption: 'No Green Pass protester wearing a Guy Fawkes mask. Rome, Italy, 2021.' },
+    { src: './home/03.jpg', caption: 'Street scene. London, UK, 2019.' },
+    { src: './home/04.jpg', caption: 'Street scene. Naples, Italy, 2019.' },
+    { src: './home/05.jpg', caption: 'Firefighters dealing with a van on fire. London, UK, 2020.' },
+    { src: './home/06.jpg', caption: 'Gay Pride. Rome, Italy, 2019.' },
+    { src: './home/07.jpg', caption: 'Transfeminist demonstration. Rome, Italy, 2023.' },
+    { src: './home/08.jpg', caption: 'Ukrainian honor guard in front of St. Michael\u2019s Golden-Domed Monastery and the Wall of Remembrance of Ukraine\u2019s Fallen Defenders in the Russo-Ukrainian War. Kyiv, Ukraine, 2023.' },
+    { src: './home/09.jpg', caption: 'Album cover for LXX Blood. Rome, Italy, 2019.' },
+    { src: './home/10.jpg', caption: 'Fans celebrating the third Serie A title in Napoli football team\u2019s history. Naples, Italy, 2023.' },
+    { src: './home/11.jpg', caption: 'Part of the People\u2019s Friendship Arch monument covered with protective panels. Kyiv, Ukraine, 2023.' },
+    { src: './home/12.jpg', caption: 'Mountain view from Piz Bo\u00e8. Dolomites, Italy, 2025.' },
+    { src: './home/13.jpg', caption: 'Hungarian student protesting against the government. Budapest, Hungary, 2022.' },
+    { src: './home/14.jpg', caption: 'Fan celebrating the Italian National Football Team\u2019s victory at the European Championship. Rome, Italy, 2021.' },
+    { src: './home/15.jpg', caption: 'Funeral of Pope Francis. Vatican City, 2025.' },
+    { src: './home/16.jpg', caption: 'A boat setting out for night fishing. Licata, Italy, 2019.' },
+    { src: './home/17.jpg', caption: 'Street scene. Rome, Italy, 2021.' },
+    { src: './home/18.jpg', caption: 'Weddell seal. Antarctic Peninsula, 2025.' },
+    { src: './home/19.jpg', caption: 'Ruslan, 19, wounded in Bakhmut. Cherkasy, Ukraine, 2023.' },
+    { src: './home/20.jpg', caption: 'Dolomites, Italy, 2024.' },
+    { src: './home/21.jpg', caption: 'Funeral of Pope Francis. Vatican City, 2025.' },
+  ];
+
+  const projects = [
+    {
+      id: 'ukraine-fragments-of-life',
+      title: 'Ukraine: Fragments of Life',
+      year: '2023',
+      description: 'In April 2023 I decided to travel to Ukraine with Luda. She lives in Italy but returns regularly to her family in Cherkasy, a small city in central Ukraine. Since the beginning of the war, Luda has been going through a difficult time: she is safe here, but she is constantly worried about the people she left behind. Her husband, Gregory, still lives in Ukraine, together with their son Taras, his wife Yana, and their daughter Solomia. I spent several weeks there exploring and documenting the daily life of civilians.\n\nI left Rome with Luda on a 45-hour bus journey across Europe that took us directly to Cherkasy. Once there, I met her family and her friends. We travelled to Kyiv, where Yana\u2019s aunt lives, and then to Irpin and Bucha, where people are trying to hold on to an ordinary life, even when the sound of the air-raid siren breaks it apart. This is the story of a woman whose life changed completely in February 2022. But it is also the story of many Ukrainians struggling to carry on, trying to normalise the war and to convince themselves that it will all soon be over.',
+      thumb: './ukraine-fragments-of-life/thumb.jpg',
+      photos: [
+        { src: './ukraine-fragments-of-life/01.jpg', caption: 'Luda at the home of the elderly woman she works for as a caretaker in Anzio, Italy.' },
+        { src: './ukraine-fragments-of-life/02.jpg', caption: 'The bus journey from Rome to Cherkasy, Ukraine.' },
+        { src: './ukraine-fragments-of-life/03.jpg', caption: 'Actors on the stage of the Regional Philharmonic before the performance in Cherkasy.' },
+        { src: './ukraine-fragments-of-life/04.jpg', caption: 'Gregory, Luda\u2019s husband. A singer by profession, since the beginning of the war he has been weaving camouflage nets to be sent to the front.' },
+        { src: './ukraine-fragments-of-life/05.jpg', caption: 'Backstage at the Cherkasy Philharmonic during a performance based on Taras Shevchenko\u2019s poem Kateryna.' },
+        { src: './ukraine-fragments-of-life/06.jpg', caption: 'A choir rehearsal at the Cherkasy Philharmonic.' },
+        { src: './ukraine-fragments-of-life/07.jpg', caption: 'Ruslan, 19, wounded in Bakhmut and hospitalised in Cherkasy.' },
+        { src: './ukraine-fragments-of-life/08.jpg', caption: 'Amputated feet, after the battle of Bakhmut.' },
+        { src: './ukraine-fragments-of-life/09.jpg', caption: 'A bridge on the Dnipro river, destroyed by Russian shelling.' },
+        { src: './ukraine-fragments-of-life/10.jpg', caption: 'Solomia on a sunny afternoon, with the bombed bridge behind her.' },
+        { src: './ukraine-fragments-of-life/11.jpg', caption: 'A Ukrainian honour guard in front of St. Michael\u2019s Golden-Domed Monastery, beside the Wall of Remembrance of the Fallen Defenders of Ukraine in the Russo-Ukrainian War, in Kyiv.' },
+        { src: './ukraine-fragments-of-life/12.jpg', caption: 'A child plays on the wreckage of Russian military vehicles brought back from the front and displayed in Mykhailivska Square in Kyiv, in front of the imposing St. Michael\u2019s Monastery. The nearby Monument to Princess Olga has been shielded with sandbags.' },
+        { src: './ukraine-fragments-of-life/13.jpg', caption: 'Sandbags stacked against a window in Kyiv to protect against flying glass in the event of shelling.' },
+        { src: './ukraine-fragments-of-life/14.jpg', caption: 'A bombed residential building in Irpin.' },
+        { src: './ukraine-fragments-of-life/15.jpg', caption: 'A section of the People\u2019s Friendship Arch in Kyiv, covered with protective panels.' },
+        { src: './ukraine-fragments-of-life/16.jpg', caption: 'The aftermath of shelling in Irpin.' },
+        { src: './ukraine-fragments-of-life/17.jpg', caption: 'Gregory and Luda at the Church of St. Michael in Cherkasy, on Orthodox Easter Sunday.' },
+        { src: './ukraine-fragments-of-life/18.jpg', caption: 'The midnight service at a small church under the Kyiv Patriarchate, where Gregory will sing liturgical chants through the night.' },
+      ]
+    },
+    {
+      id: 'the-peacock-dance',
+      title: 'The Peacock Dance',
+      year: '2022',
+      description: 'This project is part of my Master\u2019s thesis in International Relations, titled "The Peacock Dance: Orbanism against the Fundamental Values of the European Union. Analysis and Reportage of Illiberal Hungary." The thesis examines the illiberal regime built by Hungarian prime minister Viktor Orb\u00e1n.\n\nIn Western Europe, Hungary is often portrayed as the black sheep of the Union, but the picture is more complex. Orb\u00e1n has consolidated power across the country, and his inner circle has taken hold of the key institutions that have governed the nation for more than a decade. The judiciary is no longer independent. Most of the media are controlled by the government, and even elections can no longer be considered genuinely free. All of this happened without violence. The government managed to penetrate the state and erode the rule of law. In my thesis I try to explain how, and why.\n\nThe second part of the thesis is a photographic reportage, produced over two trips: the first during the elections in April 2022, the second in December of the same year. The story focuses on the civil opposition, on the protests, and on those who continue to fight against the prime minister\u2019s power.',
+      thumb: './the-peacock-dance/thumb.jpg',
+      photos: [
+        // A — opening photo, shown alongside the project description
+        { src: './the-peacock-dance/01.jpg', caption: 'The Hungarian Parliament, Budapest.' },
+
+        // B opens the elections group, with interlude 1
+        { src: './the-peacock-dance/02.jpg',
+          interlude: 'In the days leading up to the elections, there was a pro-European atmosphere in Budapest. For months the opposition coalition had seemed capable of achieving a meaningful result, until it became clear that the parties composing it were more divided than ever.',
+          caption: 'A defaced campaign poster. The slogan reads "Hungary belongs to Hungarians." Hitler moustaches have been drawn on the candidates\u2019 faces, and a sticker portraying Vladimir Putin together with Viktor Orb\u00e1n has been pasted over the image.'
+        },
+        { src: './the-peacock-dance/03.jpg', caption: 'A rally by P\u00e9ter M\u00e1rki-Zay, leader of the united opposition, held on the Friday before the elections that were eventually won by Viktor Orb\u00e1n.' },
+
+        // Diptych D+E opens the Ukraine group, with interlude 2
+        { pair: ['./the-peacock-dance/04.jpg', './the-peacock-dance/05.jpg'],
+          interlude: 'The war caused by the Russian invasion of Ukraine was the dominant issue of those weeks. Orb\u00e1n was forced to rethink his campaign. After years of portraying migrants as a threat, how could he persuade his voters to accept hundreds of thousands of Ukrainians crossing the border? By changing the vocabulary: from "migrants," a term by then reserved for those arriving from the Middle East and North Africa, to "refugees." Yet when the refugees began to arrive, the government stood still. It was ordinary citizens and NGOs, long hindered by Orb\u00e1n\u2019s policies, who helped those coming across the border.',
+          caption: 'A hostel converted into a transit shelter by the NGO Migration Aid, hosting women and children fleeing the war in Ukraine.'
+        },
+        { src: './the-peacock-dance/06.jpg', caption: 'A Ukrainian refugee family newly arrived at the Migration Aid transit center.' },
+        { src: './the-peacock-dance/07.jpg', caption: 'A pro-Ukraine and anti-Orb\u00e1n demonstration. Ukrainian mothers and their children marched carrying baby dolls, which they later laid on the ground to symbolise the children killed since the Russian invasion. Hungarian protesters took to the streets to denounce Orb\u00e1n\u2019s closeness to Putin.' },
+        { src: './the-peacock-dance/08.jpg', caption: 'A pro-Ukraine and anti-Orb\u00e1n demonstration. Ukrainian mothers and their children marched carrying baby dolls, which they later laid on the ground to symbolise the children killed since the Russian invasion. Hungarian protesters took to the streets to denounce Orb\u00e1n\u2019s closeness to Putin.' },
+        { src: './the-peacock-dance/09.jpg', caption: 'A pro-Ukraine and anti-Orb\u00e1n demonstration. Ukrainian mothers and their children marched carrying baby dolls, which they later laid on the ground to symbolise the children killed since the Russian invasion. Hungarian protesters took to the streets to denounce Orb\u00e1n\u2019s closeness to Putin.' },
+
+        // J opens the House of Terror group, with interlude 3
+        { src: './the-peacock-dance/10.jpg',
+          interlude: 'The prime minister has successfully leveraged a Hungarian identitarianism, defined in opposition to multiculturalism, together with a renewed nationalism. More effectively than anyone else, he has detached himself from the old politics of the K\u00e1d\u00e1r era and instilled the idea that Hungary can never be subjected to the will of other states or supranational bodies. Out of the trauma of Nazi and Soviet occupations, Orb\u00e1n has constructed a new national identity.',
+          caption: 'The House of Terror Museum in Budapest. The museum retraces the history of the Nazi and Soviet occupations, framing both as a nightmare in Hungary\u2019s national memory.'
+        },
+        { src: './the-peacock-dance/11.jpg', caption: 'Changing Clothes, the room that stages the continuity between the two dictatorships through their successive uniforms. The installation illustrates how the country moved, in the museum\u2019s own words, "from one distorted regime to another, equally distorted and inhuman."' },
+
+        // L opens the teachers/students group, with interlude 4
+        { src: './the-peacock-dance/12.jpg',
+          interlude: 'The illiberal government has also reached into the teaching profession. The demonstrations began over extremely low salaries, below 500 euros a month and among the lowest in Europe. Over time, the protest widened. It is no longer only a matter of wages: teachers are also demonstrating against the scarcity of new hires. There is a shortage of professors across Hungary. Since September, when the government began dismissing teachers, the demonstrations have become increasingly frequent. Alongside pay and staffing, students and professors are now protesting in defense of the right to strike and the freedom to teach.',
+          caption: 'Students and teachers protesting against the government.'
+        },
+        { src: './the-peacock-dance/13.jpg', caption: 'Students marching toward the headquarters of MTVA, the public broadcaster widely accused of being aligned with the government, in support of teachers amid the ongoing confrontation with the Orb\u00e1n administration over education. One sign reads: "Okay, we are beautiful, but how will we become smart?"' },
+        { src: './the-peacock-dance/14.jpg', caption: 'Students marching toward the headquarters of MTVA, the public broadcaster widely accused of being aligned with the government, in support of teachers amid the ongoing confrontation with the Orb\u00e1n administration over education.' },
+        { src: './the-peacock-dance/15.jpg', caption: 'A young student at the teachers\u2019 and students\u2019 protests in Budapest. Written on her face is the line "O Captain! My Captain!", from Walt Whitman\u2019s 1865 poem. The verse became iconic after the release of Dead Poets Society, in which Professor Keating, played by Robin Williams, reads it aloud to his students for the first time, and is later dismissed. When Keating returns to collect his belongings, his students rise to stand on their desks and address him with those same words.' },
+        { src: './the-peacock-dance/16.jpg', caption: 'Protesters outside the headquarters of MTVA, Hungary\u2019s public media organization.' },
+
+        // Q opens the economic crisis group, with interlude 5
+        { src: './the-peacock-dance/17.jpg',
+          interlude: 'The economic crisis driven by inflation is making everything worse. For Orb\u00e1n, the fault lies with Brussels and its sanctions against Russia, a convenient way to point to an invented enemy despite clear evidence of his own government\u2019s missteps. His price caps on fuel and basic foods, introduced as a protective measure, have in fact pushed inflation even higher.',
+          caption: 'The Central Market Hall in Budapest.'
+        },
+        { src: './the-peacock-dance/18.jpg', caption: 'One of the countless propaganda messages with which the government has blanketed Hungary. The billboard shows an atomic bomb labelled "sanctions" alongside an anti-EU slogan: "A br\u00fcsszeli szankci\u00f3k t\u00f6nkretesznek minket", meaning "Brussels\u2019 sanctions are ruining us".' },
+      ]
+    },
+    {
+      id: 'agora',
+      title: 'Agorà',
+      year: '2020–2021',
+      description: 'Since the outbreak of the Covid-19 pandemic, across Europe and in Italy, public squares have once again become a stage for citizens\u2019 anger. A wide range of faces have filled the streets, each seeking their own reckoning with how the pandemic was handled. This diary of the past two years, beginning with the 2020 demonstrations that followed the end of the first lockdown, is an investigation into street protest and into the frustration that, for very different reasons, has driven people to confront the political establishment.\n\nThe images document the protests held in Rome. Competing ideas have brought citizens into open conflict with the authorities. Far from sensationalism, I wanted to examine the physiognomy of those who chose, each for their own reasons, to rebel: the far right, the anti-vaccine movements and the anti-mask demonstrators denouncing a "health dictatorship"; the no-green-pass protesters rejecting the Covid certificate; the "IoApro" movement, which opposed the closure of small businesses during successive waves of infection. The effects of the coronavirus on society have been told in countless ways. This project is a record of one of the pandemic\u2019s many side effects.\n\nThe square, historically the gathering place of the demos, is once again a battleground. The people who cross it carry different convictions, sometimes overlapping, sometimes opposed. What drives them is not a single shared ideology. At the core of this large and heterogeneous body is a common feeling: anger, disappointment, despair. The pandemic has broken a fragile balance. A balance that people now try to recover by shouting, once more, in the agora.',
+      thumb: './agora/thumb.jpg',
+      photos: [
+        { src: './agora/01.jpg', caption: null },
+        { pair: ['./agora/02.jpg', './agora/03.jpg'], caption: null },
+        { src: './agora/04.jpg', caption: null },
+        { src: './agora/05.jpg', caption: null },
+        { pair: ['./agora/06.jpg', './agora/07.jpg'], caption: null },
+        { src: './agora/08.jpg', caption: null },
+        { src: './agora/11.jpg', caption: null },
+        { src: './agora/12.jpg', caption: null },
+        { pair: ['./agora/10.jpg', './agora/09.jpg'], caption: null },
+        { src: './agora/13.jpg', caption: null },
+        { src: './agora/14.jpg', caption: null },
+        { src: './agora/15.jpg', caption: null },
+        { src: './agora/16.jpg', caption: null },
+      ]
+    },
+    {
+      id: 'sicilian-love-story',
+      title: 'Sicilian Love Story',
+      year: '2017–ongoing',
+      description: 'Ongoing project exploring Sicily and its people.',
+      thumb: './sicilian-love-story/thumb.jpg',
+      photos: [
+        { src: './sicilian-love-story/01.jpg', caption: null },
+        { src: './sicilian-love-story/02.jpg', caption: null },
+        { pair: ['./sicilian-love-story/03.jpg', './sicilian-love-story/04.jpg'], caption: null },
+        { src: './sicilian-love-story/05.jpg', caption: null },
+        { src: './sicilian-love-story/06.jpg', caption: null },
+        { pair: ['./sicilian-love-story/07.jpg', './sicilian-love-story/08.jpg'], caption: null },
+        { src: './sicilian-love-story/09.jpg', caption: null },
+        { src: './sicilian-love-story/10.jpg', caption: null },
+        { src: './sicilian-love-story/11.jpg', caption: null },
+        { pair: ['./sicilian-love-story/12.jpg', './sicilian-love-story/13.jpg'], caption: null },
+        { src: './sicilian-love-story/14.jpg', caption: null },
+        { pair: ['./sicilian-love-story/15.jpg', './sicilian-love-story/16.jpg'], caption: null },
+        { src: './sicilian-love-story/17.jpg', caption: null },
+      ]
+    },
+    {
+      id: 'milano-circus-week',
+      title: 'Milano Circus Week',
+      year: '2019',
+      description: null,
+      thumb: './milano-circus-week/thumb.jpg',
+      photos: [
+        { src: './milano-circus-week/01.jpg', caption: null },
+        { src: './milano-circus-week/02.jpg', caption: null },
+        { src: './milano-circus-week/03.jpg', caption: null },
+        { src: './milano-circus-week/04.jpg', caption: null },
+        { src: './milano-circus-week/05.jpg', caption: null },
+        { src: './milano-circus-week/06.jpg', caption: null },
+        { src: './milano-circus-week/07.jpg', caption: null },
+        { src: './milano-circus-week/08.jpg', caption: null },
+        { src: './milano-circus-week/09.jpg', caption: null },
+        { src: './milano-circus-week/10.jpg', caption: null },
+        { src: './milano-circus-week/11.jpg', caption: null },
+        { src: './milano-circus-week/12.jpg', caption: null },
+        { src: './milano-circus-week/13.jpg', caption: null },
+        { src: './milano-circus-week/14.jpg', caption: null },
+        { src: './milano-circus-week/15.jpg', caption: null },
+      ]
+    },
+  ];
+
+  const assignmentGroups = [
+    {
+      heading: 'Selected Works',
+      items: [
+        {
+          id: 'conclave-leone-xiv',
+          year: '2025',
+          title: 'Conclave, l\u2019attesa e la fumata bianca: Piazza San Pietro nel giorno di Papa Leone XIV',
+          publication: 'Leggo',
+          description: 'After Pope Francis\u2019s death, the cardinals gathered in conclave, an event that once again captured the world\u2019s attention. The mystery behind those closing doors drew tens of thousands who wanted to witness in person the moment the white smoke would proclaim the new pope. I was in Piazza San Pietro the very first day \u2014 you can read about it <a href="https://www.leggo.it/italia/roma/conclave_racconto_prima_giornata_fumata_nera_oggi_8_5_2025-8821756.html" target="_blank" rel="noopener">here</a> \u2014 as well as the second day, when finally the white smoke came out from the chimney and Pope Leo XIV presented himself at the world. You can also read it on <a href="https://www.leggo.it/italia/roma/papa_leone_racconto_piazza_san_pietro_annuncio_emozione_fedeli_testimoni_oggi_8_5_2025-8824015.html" target="_blank" rel="noopener">Leggo</a>.',
+          photos: [
+            { src: './assignments/conclave-leone-xiv/01.jpg' },
+            { src: './assignments/conclave-leone-xiv/02.jpg' },
+            { src: './assignments/conclave-leone-xiv/03.jpg' },
+            { src: './assignments/conclave-leone-xiv/04.jpg' },
+            { src: './assignments/conclave-leone-xiv/05.jpg' },
+            { src: './assignments/conclave-leone-xiv/06.jpg' },
+            { src: './assignments/conclave-leone-xiv/07.jpg' },
+            { src: './assignments/conclave-leone-xiv/08.jpg' },
+            { src: './assignments/conclave-leone-xiv/09.jpg' },
+            { src: './assignments/conclave-leone-xiv/10.jpg' },
+            { src: './assignments/conclave-leone-xiv/11.jpg' },
+            { src: './assignments/conclave-leone-xiv/12.jpg' },
+            { src: './assignments/conclave-leone-xiv/13.jpg' },
+            { src: './assignments/conclave-leone-xiv/14.jpg' },
+            { src: './assignments/conclave-leone-xiv/15.jpg' },
+            { src: './assignments/conclave-leone-xiv/16.jpg' },
+            { src: './assignments/conclave-leone-xiv/17.jpg' },
+            { src: './assignments/conclave-leone-xiv/18.jpg' },
+            { src: './assignments/conclave-leone-xiv/19.jpg' },
+            { src: './assignments/conclave-leone-xiv/20.jpg' },
+            { src: './assignments/conclave-leone-xiv/21.jpg' },
+          ]
+        },
+        { year: '2025', title: 'Papa Francesco, dalla morte ai funerali: il reportage da San Pietro', publication: 'Leggo',
+          id: 'papa-francesco-funerale',
+          description: 'In this first-person piece, I recount the days following the death of Pope Francis on April 21, 2025, leading up to his funeral in St. Peter\u2019s Square on April 26. As I move through the crowds \u2014 tourists, pilgrims, journalists, and world leaders \u2014 I witness Rome becoming both a place of mourning and a stage for global spectacle.\n\nFrom the chaotic lines and midnight vigils to the unexpected mix of reverence and distraction \u2014 selfies near the Pope\u2019s body, live Twitch streams, and overheard jokes \u2014 I try to grasp the meaning of being present at history. On the day of the funeral, after hours of waiting and a rush through security, I finally feel something shift. During the Mass, as Latin chants echo and the crowd falls silent, the sacred finally breaks through the noise. Read it on <a href="https://www.leggo.it/italia/cronache/papa_francesco_racconto_morte_funerali_reportage_oggi_27_4_2025-8801207.html" target="_blank" rel="noopener">Leggo</a>.',
+          photos: [
+            { src: './assignments/papa-francesco-funerale/01.jpg' },
+            { src: './assignments/papa-francesco-funerale/02.jpg' },
+            { src: './assignments/papa-francesco-funerale/03.jpg' },
+            { src: './assignments/papa-francesco-funerale/04.jpg' },
+            { src: './assignments/papa-francesco-funerale/05.jpg' },
+            { src: './assignments/papa-francesco-funerale/06.jpg' },
+            { src: './assignments/papa-francesco-funerale/07.jpg' },
+            { src: './assignments/papa-francesco-funerale/08.jpg' },
+            { src: './assignments/papa-francesco-funerale/09.jpg' },
+            { src: './assignments/papa-francesco-funerale/10.jpg' },
+            { src: './assignments/papa-francesco-funerale/11.jpg' },
+            { src: './assignments/papa-francesco-funerale/12.jpg' },
+            { src: './assignments/papa-francesco-funerale/13.jpg' },
+            { src: './assignments/papa-francesco-funerale/14.jpg' },
+            { src: './assignments/papa-francesco-funerale/15.jpg' },
+            { src: './assignments/papa-francesco-funerale/16.jpg' },
+          ]
+        },
+        { year: '2025', title: 'Viaggio in Antartide: il reportage dal continente bianco', publication: 'Leggo',
+          id: 'antartide',
+          description: 'On January 2025 I have been to Antarctica and put my feet on the most extreme land on earth. A reportage of that expedition has been published on <a href="https://www.leggo.it/schede/antartide_viaggio_reportage_bianco_pinguini_ghiacciai_mare_piu_pericoloso_al_mondo_oggi_24_2_2025-8645026.html" target="_blank" rel="noopener">Leggo</a>. In order to land on Antarctica it is important to follow high standard rules, given by the IAATO (International Association of Antarctica Tour Operators). You can find some curiosities about those rules and our expedition in another article published on <a href="https://www.leggo.it/schede/viaggio_antartide_regole_pinguini_rifiuti_distanza_pipi_oggi_3_3_2025-8652967.html" target="_blank" rel="noopener">Leggo</a>.',
+          photos: [
+            { src: './assignments/antartide/01.jpg' },
+            { src: './assignments/antartide/02.jpg' },
+            { src: './assignments/antartide/03.jpg' },
+            { src: './assignments/antartide/04.jpg' },
+            { src: './assignments/antartide/05.jpg' },
+            { src: './assignments/antartide/06.jpg' },
+          ]
+        },
+        { year: '2024', title: 'Nel mondo del veganismo con Maria Sofia Federico e Rifugio Hope', publication: 'Leggo',
+          id: 'maria-sofia-federico-rifugio-hope',
+          description: 'At just 20, Maria Sofia Federico has spent years in the headlines for her activism in both the adult industry and the vegan movement. I profiled her in an exclusive interview for <a href="https://www.leggo.it/italia/cronache/maria_sofia_federico_onlyfans_soldi_animali_rifugio_hope_insulti_oggi_22_12_2024-8545300.html" target="_blank" rel="noopener">Leggo</a>.\n\nMaria Sofia is also a vocal supporter of Rifugio Hope, an animal sanctuary north of Rome. In a companion piece for <a href="https://www.leggo.it/schede/corinna_elfie_rifugio_hope_salvare_animali_onnivori_oggi_22_12_2024-8545007.html" target="_blank" rel="noopener">Leggo</a>, I report from inside the sanctuary and speak with its founder.',
+          photos: [
+            { src: './assignments/maria-sofia-federico-rifugio-hope/01.jpg' },
+            { src: './assignments/maria-sofia-federico-rifugio-hope/02.jpg' },
+            { src: './assignments/maria-sofia-federico-rifugio-hope/03.jpg' },
+            { src: './assignments/maria-sofia-federico-rifugio-hope/04.jpg' },
+            { src: './assignments/maria-sofia-federico-rifugio-hope/05.jpg' },
+            { src: './assignments/maria-sofia-federico-rifugio-hope/06.jpg' },
+            { src: './assignments/maria-sofia-federico-rifugio-hope/07.jpg' },
+            { src: './assignments/maria-sofia-federico-rifugio-hope/08.jpg' },
+            { src: './assignments/maria-sofia-federico-rifugio-hope/09.jpg' },
+          ]
+        },
+        { year: '2024', title: 'A due anni dall\u2019inizio della guerra in Ucraina: il racconto di nonna Luda', publication: 'Leggo',
+          id: 'nonna-luda-due-anni',
+          description: 'Two years into the war, Luda\u2019s personal story. She decided to leave her job in Italy and return to her family in Ukraine. Text and photos for <a href="https://www.leggo.it/schede/due_anni_guerra_ucraina_russia_nonna_ludmilla_oggi_24_2_2024-7953930.html" target="_blank" rel="noopener">Leggo</a>.',
+          photos: [
+            { src: './assignments/nonna-luda-due-anni/01.jpg' },
+            { src: './assignments/nonna-luda-due-anni/02.jpg' },
+            { src: './assignments/nonna-luda-due-anni/03.jpg' },
+          ]
+        },
+        { year: '2023', title: 'Viaggio in Ucraina: dal racconto di Steinbeck a oggi', publication: 'Il Tascabile',
+          id: 'viaggio-ucraina-steinbeck',
+          description: 'A long-form piece that sets the accounts collected in A Russian Journal \u2014 the 1947 book by John Steinbeck, with photographs by Robert Capa \u2014 against what I witnessed in Ukraine one year into the current war. The article traces how the same population, faced with two different wars nearly eighty years apart, responds in strikingly similar ways. Text and photos for <a href="https://www.iltascabile.com/linguaggi/la-storia-che-non-cambia/" target="_blank" rel="noopener">Il Tascabile</a>.',
+          photos: [
+            { src: './assignments/viaggio-ucraina-steinbeck/01.jpg' },
+            { src: './assignments/viaggio-ucraina-steinbeck/02.jpg' },
+            { src: './assignments/viaggio-ucraina-steinbeck/03.jpg' },
+            { src: './assignments/viaggio-ucraina-steinbeck/04.jpg' },
+            { src: './assignments/viaggio-ucraina-steinbeck/05.jpg' },
+            { src: './assignments/viaggio-ucraina-steinbeck/06.jpg' },
+            { src: './assignments/viaggio-ucraina-steinbeck/07.jpg' },
+          ]
+        },
+        { year: '2023', title: 'Il mio viaggio in Ucraina con Babuska', publication: 'Il Venerd\u00ec di Repubblica',
+          id: 'viaggio-ucraina-babuska',
+          description: 'An intimate portrait of Luda\u2019s family in Cherkasy. Text and photos for <a href="https://drive.google.com/file/d/1xzll6Ev7rz7tiM2Px6zOx5-GTmFJJHXc/view" target="_blank" rel="noopener">Il Venerd\u00ec di Repubblica</a>.',
+          photos: [
+            { src: './assignments/viaggio-ucraina-babuska/01.jpg' },
+            { src: './assignments/viaggio-ucraina-babuska/02.jpg' },
+            { src: './assignments/viaggio-ucraina-babuska/03.jpg' },
+            { src: './assignments/viaggio-ucraina-babuska/04.jpg' },
+            { src: './assignments/viaggio-ucraina-babuska/05.jpg' },
+            { src: './assignments/viaggio-ucraina-babuska/06.jpg' },
+          ]
+        },
+        { year: '2022', title: 'A Budapest, tra l\u2019opposizione ungherese che resiste a Orb\u00e1n', publication: 'The Submarine',
+          id: 'budapest-opposizione',
+          description: 'A reportage on Hungary\u2019s liberal opposition and social movements during the April 2022 elections. Text and photos for <a href="https://www.thesubmarine.it/2022/04/04/a-budapest-tra-lopposizione-ungherese-che-resiste-a-orban/" target="_blank" rel="noopener">The Submarine</a>.',
+          photos: [
+            { src: './assignments/budapest-opposizione/01.jpg' },
+            { src: './assignments/budapest-opposizione/02.jpg' },
+            { src: './assignments/budapest-opposizione/03.jpg' },
+            { src: './assignments/budapest-opposizione/04.jpg' },
+            { src: './assignments/budapest-opposizione/05.jpg' },
+            { src: './assignments/budapest-opposizione/06.jpg' },
+            { src: './assignments/budapest-opposizione/07.jpg' },
+            { src: './assignments/budapest-opposizione/08.jpg' },
+          ]
+        },
+        { year: '2022', title: 'La comunit\u00e0 di Santa Sofia che aiuta l\u2019Ucraina in guerra', publication: 'The Submarine', url: 'https://www.thesubmarine.it/2022/03/07/la-comunita-ortodossa-italiana-che-aiuta-lucraina-in-guerra/' },
+        { year: '2022', title: 'Maturit\u00e0 e lavoro: le proteste della scuola in stato di agitazione', publication: 'The Submarine', url: 'https://www.thesubmarine.it/2022/02/06/proteste-studenti-maturita/' },
+        { year: '2022', title: 'Il corteo di Roma "contro tutti gli sgomberi"', publication: 'The Submarine', url: 'https://www.thesubmarine.it/2022/01/30/il-corteo-di-roma-contro-tutti-gli-sgomberi/' },
+      ]
+    },
+    {
+      heading: 'Commercial',
+      items: [
+        { year: '2026', title: 'Women a Roma', company: 'Insuperabili',
+          id: 'women-a-roma',
+          description: 'A project carried out over several weeks for Insuperabili, an organization founded in Turin in 2012 that uses football as a tool for inclusion for people with cognitive, relational, emotional, behavioral, physical, motor, and sensory disabilities.',
+          photos: [
+            { src: './assignments/women-a-roma/01.jpg' },
+            { src: './assignments/women-a-roma/02.jpg' },
+            { src: './assignments/women-a-roma/03.jpg' },
+            { src: './assignments/women-a-roma/04.jpg' },
+            { src: './assignments/women-a-roma/05.jpg' },
+            { src: './assignments/women-a-roma/06.jpg' },
+            { src: './assignments/women-a-roma/07.jpg' },
+            { src: './assignments/women-a-roma/08.jpg' },
+            { src: './assignments/women-a-roma/09.jpg' },
+            { src: './assignments/women-a-roma/10.jpg' },
+            { src: './assignments/women-a-roma/11.jpg' },
+            { src: './assignments/women-a-roma/12.jpg' },
+            { src: './assignments/women-a-roma/13.jpg' },
+            { src: './assignments/women-a-roma/14.jpg' },
+            { src: './assignments/women-a-roma/15.jpg' },
+            { src: './assignments/women-a-roma/16.jpg' },
+            { src: './assignments/women-a-roma/17.jpg' },
+            { src: './assignments/women-a-roma/18.jpg' },
+          ]
+        },
+      ]
+    },
+    {
+      heading: 'Interviews',
+      items: [
+        { year: '2023', title: 'Ucraina: intervista sul viaggio', publication: 'Cusano News 7', url: 'https://www.youtube.com/watch?v=TMuT_P2tr9I' },
+        { year: '2022', title: 'OLTRE \u2014 Ungheria: lo stato meno europeo d\u2019Europa', publication: 'Roma Tre Radio', url: 'https://soundcloud.com/romatreradio/oltre-ungheria-lo-stato-meno-europeo-deuropa-con-edoardo-vezzi' },
+      ]
+    },
+    {
+      heading: 'Other Works',
+      items: [
+        { title: 'Il Messaggero', url: 'https://www.ilmessaggero.it/persone/robert_stark_odissea_inps_pensione_comparsa_film_quota_100_20mila_euro_trattenuti-8239400.html' },
+        { title: 'Il Mattino', url: 'https://www.ilmattino.it/lifestyle/persone/lavoro_amazon_precari_feste_controllo_bagno-8568360.html' },
+        { title: 'Leggo', url: 'https://linktr.ee/edoardovezzi' },
+        { title: 'IAI \u2014 Affari Internazionali', url: 'https://www.affarinternazionali.it/author/edoardo-vezzi/' },
+        { title: 'Quarta Parete', url: 'https://quartapareteroma.it/author/edoardovezzi/' },
+        { title: 'LabEuropa', url: 'http://www.labeuropa.eu/?s=Edoardo%20Vezzi' },
+      ]
+    },
+  ];
+
+  // ----- STATE -----
+  const state = {
+    view: 'home',
+    homeIdx: 0,
+    projectId: null,
+    projectIdx: 0,
+    articleId: null,
+  };
+
+  // ----- ROUTING -----
+  const views = ['home', 'projects', 'assignments', 'about', 'project-detail', 'article-detail'];
+
+  function go(view, opts = {}) {
+    state.view = view;
+    if (opts.projectId) { state.projectId = opts.projectId; state.projectIdx = 0; }
+    if (opts.articleId) { state.articleId = opts.articleId; }
+
+    // Reset home index to 0 whenever we enter the home view via navigation
+    if (view === 'home') state.homeIdx = 0;
+
+    // Reset scroll position of the incoming view to the top
+    requestAnimationFrame(() => {
+      const active = document.getElementById('view-' + view);
+      if (active) active.scrollTop = 0;
+      // Also reset the mobile-stack inner scroll if any
+      const stacks = active ? active.querySelectorAll('.mobile-stack') : [];
+      stacks.forEach(s => s.scrollTop = 0);
+    });
+
+    render();
+  }
+
+  function render() {
+    // show/hide views
+    views.forEach(v => {
+      const el = document.getElementById('view-' + v);
+      if (el) el.classList.toggle('active', v === state.view);
+    });
+
+    // update top nav underline
+    document.querySelectorAll('nav a').forEach(a => {
+      const v = a.dataset.view;
+      const match =
+        (v === state.view) ||
+        (v === 'projects' && state.view === 'project-detail') ||
+        (v === 'assignments' && state.view === 'article-detail');
+      a.classList.toggle('active', !!match);
+    });
+
+    // render per view
+    if (state.view === 'home') renderHome();
+    if (state.view === 'projects') renderProjectsGrid();
+    if (state.view === 'project-detail') renderProjectDetail();
+    if (state.view === 'assignments') renderAssignmentsList();
+    if (state.view === 'article-detail') renderArticleDetail();
+
+    renderFooter();
+  }
+
+  // ----- RENDERERS -----
+
+  // Prefetch image URLs by creating in-memory Image() objects.
+  // The browser caches them so subsequent <img src=""> is instant.
+  const prefetched = new Set();
+  function prefetchImages(urls) {
+    urls.forEach(url => {
+      if (!url || prefetched.has(url)) return;
+      const img = new Image();
+      img.src = url;
+      prefetched.add(url);
+    });
+  }
+
+  // Given a current index and a photos array, return the URLs of
+  // neighbors (±1 and +2) to prefetch. Handles singles, diptychs, and pairs.
+  function neighborUrls(photos, idx) {
+    const len = photos.length;
+    const neighbors = [
+      photos[(idx + 1) % len],
+      photos[(idx + 2) % len],
+      photos[(idx - 1 + len) % len],
+    ];
+    const urls = [];
+    neighbors.forEach(entry => {
+      if (!entry) return;
+      if (entry.pair) urls.push(...entry.pair);
+      else if (entry.src) urls.push(entry.src);
+    });
+    return urls;
+  }
+
+  function renderHome() {
+    const photo = homePhotos[state.homeIdx];
+    document.getElementById('home-img').src = photo.src;
+    document.getElementById('home-caption').textContent = photo.caption;
+    prefetchImages(neighborUrls(homePhotos, state.homeIdx));
+  }
+
+  function renderProjectsGrid() {
+    const grid = document.getElementById('projects-grid');
+
+    // Determine number of columns based on viewport
+    const w = window.innerWidth;
+    const cols = w <= 900 ? 1 : (w <= 1200 ? 2 : 3);
+
+    // Reorder projects so that CSS columns (which flow top-to-bottom)
+    // produce a left-to-right reading order.
+    const rows = Math.ceil(projects.length / cols);
+    const reordered = [];
+    for (let c = 0; c < cols; c++) {
+      for (let r = 0; r < rows; r++) {
+        const idx = r * cols + c;
+        if (idx < projects.length) reordered.push(projects[idx]);
+      }
+    }
+
+    grid.innerHTML = reordered.map(p => `
+      <div class="project-card" data-project="${p.id}">
+        <div class="thumb"><img src="${p.thumb}" alt="${p.title}"></div>
+        <div class="meta">
+          <span class="title">${p.title}</span>
+          <span class="year">${p.year || ''}</span>
+        </div>
+      </div>
+    `).join('');
+
+    grid.querySelectorAll('.project-card').forEach(card => {
+      card.addEventListener('click', () => go('project-detail', { projectId: card.dataset.project }));
+    });
+  }
+
+  function renderProjectDetail() {
+    const proj = projects.find(p => p.id === state.projectId);
+    if (!proj) return;
+    const idx = state.projectIdx;
+    const entry = proj.photos[idx];
+
+    // Build the two blocks: top (title / year / description / interlude)
+    // and bottom (photo caption).
+    let topHtml = `<div class="eyebrow">${proj.title}</div>`;
+
+    if (idx === 0) {
+      if (proj.year) topHtml += `<div class="byline">${proj.year}</div>`;
+      if (proj.description) {
+        const paras = proj.description.split(/\n\s*\n/).map(p => `<p>${p.trim()}</p>`).join('');
+        topHtml += paras;
+      }
+    }
+
+    if (entry.interlude) {
+      const paras = entry.interlude.split(/\n\s*\n/).map(p => `<p>${p.trim()}</p>`).join('');
+      // On first position, separate interlude from description with spacing
+      const mt = idx === 0 ? 'margin-top:18px;' : '';
+      topHtml += `<div style="${mt}">${paras}</div>`;
+    }
+
+    const bottomHtml = entry.caption ? `<p>${entry.caption}</p>` : '';
+
+    document.getElementById('project-text').innerHTML = `
+      <div class="top-block">${topHtml}</div>
+      <div class="spacer"></div>
+      <div class="bottom-block">${bottomHtml}</div>
+    `;
+
+    // photo area: single image or diptych
+    const inner = document.getElementById('project-photo-inner');
+    if (entry.pair && Array.isArray(entry.pair) && entry.pair.length === 2) {
+      renderDiptych(inner, entry.pair);
+    } else if (entry.src) {
+      inner.innerHTML = `<img src="${entry.src}" style="width:100%;height:100%;object-fit:contain;" alt="">`;
+    } else {
+      inner.innerHTML = '';
+    }
+
+    // Prefetch neighbors so next/prev navigation is instant
+    prefetchImages(neighborUrls(proj.photos, idx));
+  }
+
+  // Render a diptych: detect orientation of both images and pick layout.
+  // Two portraits -> side-by-side. Two landscapes -> stacked.
+  // Mixed -> side-by-side by default.
+  function renderDiptych(container, srcs) {
+    // Probe natural dimensions to decide layout. We set a temporary layout first
+    // so the DOM is never empty, then swap once we know orientations.
+    container.innerHTML = `<div class="diptych side-by-side">
+      <img src="${srcs[0]}" alt="">
+      <img src="${srcs[1]}" alt="">
+    </div>`;
+
+    const [img1, img2] = container.querySelectorAll('.diptych img');
+    let loaded = 0;
+    const decideLayout = () => {
+      const isPortrait1 = img1.naturalHeight > img1.naturalWidth;
+      const isPortrait2 = img2.naturalHeight > img2.naturalWidth;
+      const bothLandscape = !isPortrait1 && !isPortrait2;
+      const dip = container.querySelector('.diptych');
+      if (bothLandscape) {
+        dip.classList.remove('side-by-side');
+        dip.classList.add('stacked');
+      } else {
+        dip.classList.remove('stacked');
+        dip.classList.add('side-by-side');
+      }
+    };
+
+    [img1, img2].forEach(img => {
+      if (img.complete && img.naturalWidth > 0) {
+        loaded++;
+        if (loaded === 2) decideLayout();
+      } else {
+        img.addEventListener('load', () => {
+          loaded++;
+          if (loaded === 2) decideLayout();
+        });
+      }
+    });
+    if (loaded === 2) decideLayout();
+  }
+
+  function renderAssignmentsList() {
+    const list = document.getElementById('assignments-list');
+    list.innerHTML = assignmentGroups.map(group => `
+      <li class="assignment-group-heading">${group.heading}</li>
+      ${group.items.map(item => {
+        const year = item.year ? `<span class="date">${item.year}</span>` : '<span class="date"></span>';
+        const pub  = `<span class="publication">${item.publication || item.company || ''}</span>`;
+        const title = `<span class="title">${item.title}</span>`;
+        if (item.id) {
+          // internal detail page
+          return `
+            <li class="assignment-row">
+              <span class="assignment-link" data-article="${item.id}" role="link" tabindex="0">
+                ${year}${title}${pub}
+                <span class="arrow">\u2192</span>
+              </span>
+            </li>
+          `;
+        } else {
+          // external link
+          return `
+            <li class="assignment-row">
+              <a href="${item.url || '#'}" target="_blank" rel="noopener" class="assignment-link">
+                ${year}${title}${pub}
+                <span class="arrow">\u2197</span>
+              </a>
+            </li>
+          `;
+        }
+      }).join('')}
+    `).join('');
+
+    // wire internal detail clicks
+    list.querySelectorAll('[data-article]').forEach(el => {
+      el.addEventListener('click', () => go('article-detail', { articleId: el.dataset.article }));
+      el.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          go('article-detail', { articleId: el.dataset.article });
+        }
+      });
+    });
+  }
+
+  // Flatten selected-works items that have a detail page, for lookup
+  function findAssignment(id) {
+    for (const g of assignmentGroups) {
+      for (const item of g.items) {
+        if (item.id === id) return item;
+      }
+    }
+    return null;
+  }
+
+  function renderArticleDetail() {
+    const art = findAssignment(state.articleId);
+    if (!art) return;
+
+    const photosHtml = (art.photos && art.photos.length)
+      ? `<div class="article-photos">
+          ${art.photos.map((p, i) => `
+            <div class="photo-item" data-photo-idx="${i}">
+              <img src="${p.src}" alt="" loading="lazy">
+              ${p.caption ? `<div class="caption">${p.caption}</div>` : ''}
+            </div>
+          `).join('')}
+        </div>`
+      : '';
+
+    document.getElementById('article-detail').innerHTML = `
+      <div class="article-header">
+        ${(art.publication || art.company) ? `<div class="eyebrow">${art.publication || art.company}</div>` : ''}
+        <h1>${art.title}</h1>
+        ${art.year ? `<div class="meta-line">${art.year}</div>` : ''}
+        ${art.description ? `<div class="article-description">${art.description}</div>` : ''}
+      </div>
+      ${photosHtml}
+    `;
+
+    // Wire lightbox on each photo
+    document.querySelectorAll('.article-photos .photo-item').forEach(el => {
+      el.addEventListener('click', () => {
+        openLightbox(art.photos, parseInt(el.dataset.photoIdx, 10));
+      });
+    });
+  }
+
+  // ----- LIGHTBOX -----
+  const lightboxState = { photos: [], idx: 0 };
+
+  function openLightbox(photos, idx) {
+    lightboxState.photos = photos;
+    lightboxState.idx = idx;
+    document.getElementById('lightbox-img').src = photos[idx].src;
+    document.getElementById('lightbox').classList.add('active');
+    document.body.style.overflow = 'hidden';
+    updateLightboxCounter();
+    prefetchImages(neighborUrls(photos, idx));
+  }
+
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function lightboxStep(delta) {
+    const len = lightboxState.photos.length;
+    lightboxState.idx = (lightboxState.idx + delta + len) % len;
+    document.getElementById('lightbox-img').src = lightboxState.photos[lightboxState.idx].src;
+    updateLightboxCounter();
+    prefetchImages(neighborUrls(lightboxState.photos, lightboxState.idx));
+  }
+
+  function updateLightboxCounter() {
+    document.getElementById('lightbox-counter').textContent =
+      `${lightboxState.idx + 1}/${lightboxState.photos.length}`;
+  }
+
+  // Wire lightbox controls (once, on load)
+  document.getElementById('lightbox-close').addEventListener('click', (e) => {
+    e.stopPropagation(); closeLightbox();
+  });
+  document.getElementById('lightbox-prev').addEventListener('click', (e) => {
+    e.stopPropagation(); lightboxStep(-1);
+  });
+  document.getElementById('lightbox-next').addEventListener('click', (e) => {
+    e.stopPropagation(); lightboxStep(1);
+  });
+  // Click on backdrop closes; click on image does not
+  document.getElementById('lightbox').addEventListener('click', (e) => {
+    if (e.target.id === 'lightbox') closeLightbox();
+  });
+  document.getElementById('lightbox-img').addEventListener('click', (e) => {
+    e.stopPropagation();
+  });
+  // Keyboard: ESC to close, arrows to navigate
+  document.addEventListener('keydown', (e) => {
+    if (!document.getElementById('lightbox').classList.contains('active')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') lightboxStep(-1);
+    if (e.key === 'ArrowRight') lightboxStep(1);
+  });
+
+  function renderFooter() {
+    const left = document.getElementById('page-counter');
+    const center = document.getElementById('footer-center');
+    const right = document.getElementById('footer-right');
+
+    left.textContent = '';
+    center.innerHTML = '';
+    right.innerHTML = '';
+
+    if (state.view === 'home') {
+      left.textContent = `${state.homeIdx + 1}/${homePhotos.length}`;
+    }
+
+    if (state.view === 'project-detail') {
+      const proj = projects.find(p => p.id === state.projectId);
+      if (!proj) return;
+      left.textContent = `${state.projectIdx + 1}/${proj.photos.length}`;
+
+      const projIdx = projects.findIndex(p => p.id === proj.id);
+      const prev = projects[(projIdx - 1 + projects.length) % projects.length];
+      const next = projects[(projIdx + 1) % projects.length];
+
+      center.innerHTML = `
+        <span class="nav-link" data-goproject="${prev.id}">&lt; previous project</span>
+        <span class="nav-link" data-goproject="${next.id}">next project &gt;</span>
+      `;
+      right.innerHTML = `<span class="nav-link" data-view="projects">go to projects</span>`;
+
+      center.querySelectorAll('[data-goproject]').forEach(el => {
+        el.addEventListener('click', () => go('project-detail', { projectId: el.dataset.goproject }));
+      });
+      right.querySelector('[data-view]').addEventListener('click', () => go('projects'));
+    }
+
+    if (state.view === 'article-detail') {
+      right.innerHTML = `<span class="nav-link" data-view="assignments">back to assignments</span>`;
+      right.querySelector('[data-view]').addEventListener('click', () => go('assignments'));
+    }
+  }
+
+  // ----- EVENT WIRING -----
+  // Top nav
+  document.querySelectorAll('[data-view]').forEach(el => {
+    if (el.closest('header')) {
+      el.addEventListener('click', () => go(el.dataset.view));
+    }
+  });
+
+  // Slide helper: old slides out in one direction, new slides in from the other.
+  // direction 'next' = new enters from right; 'prev' = new enters from left.
+  function withSlide(targetSelector, direction, updateFn) {
+    const el = document.querySelector(targetSelector);
+    if (!el) { updateFn(); return; }
+
+    const outClass = direction === 'next' ? 'slide-out-left' : 'slide-out-right';
+    const inClass  = direction === 'next' ? 'slide-in-right' : 'slide-in-left';
+
+    // clean any leftover classes
+    el.classList.remove('slide-out-left', 'slide-out-right', 'slide-in-left', 'slide-in-right');
+    el.classList.add(outClass);
+
+    setTimeout(() => {
+      updateFn();
+      el.classList.remove(outClass);
+      // force reflow so the in-animation replays
+      void el.offsetWidth;
+      el.classList.add(inClass);
+      setTimeout(() => el.classList.remove(inClass), 340);
+    }, 320);
+  }
+
+  // Home photo click → nav zones
+  document.getElementById('home-photo').addEventListener('click', (e) => {
+    const zone = e.target.closest('.nav-zone');
+    if (!zone) return;
+    const dir = zone.dataset.dir;
+    const len = homePhotos.length;
+    const newIdx = dir === 'prev'
+      ? (state.homeIdx - 1 + len) % len
+      : (state.homeIdx + 1) % len;
+    withSlide('#home-img', dir === 'next' ? 'next' : 'prev', () => {
+      state.homeIdx = newIdx;
+      renderHome();
+      renderFooter();
+    });
+  });
+
+  // Project photo click → nav zones
+  document.getElementById('project-photo').addEventListener('click', (e) => {
+    const zone = e.target.closest('.nav-zone');
+    if (!zone) return;
+    const proj = projects.find(p => p.id === state.projectId);
+    if (!proj) return;
+    const dir = zone.dataset.dir;
+    const len = proj.photos.length;
+    const newIdx = dir === 'prev'
+      ? (state.projectIdx - 1 + len) % len
+      : (state.projectIdx + 1) % len;
+    withSlide('#project-photo-inner', dir === 'next' ? 'next' : 'prev', () => {
+      state.projectIdx = newIdx;
+      renderProjectDetail();
+      renderFooter();
+    });
+  });
+
+  // Keyboard: left/right arrows also advance
+  document.addEventListener('keydown', (e) => {
+    if (state.view === 'home') {
+      if (e.key === 'ArrowRight') {
+        withSlide('#home-img', 'next', () => {
+          state.homeIdx = (state.homeIdx + 1) % homePhotos.length;
+          renderHome(); renderFooter();
+        });
+      }
+      if (e.key === 'ArrowLeft') {
+        withSlide('#home-img', 'prev', () => {
+          state.homeIdx = (state.homeIdx - 1 + homePhotos.length) % homePhotos.length;
+          renderHome(); renderFooter();
+        });
+      }
+    }
+    if (state.view === 'project-detail') {
+      const proj = projects.find(p => p.id === state.projectId);
+      if (!proj) return;
+      if (e.key === 'ArrowRight') {
+        withSlide('#project-photo-inner', 'next', () => {
+          state.projectIdx = (state.projectIdx + 1) % proj.photos.length;
+          renderProjectDetail(); renderFooter();
+        });
+      }
+      if (e.key === 'ArrowLeft') {
+        withSlide('#project-photo-inner', 'prev', () => {
+          state.projectIdx = (state.projectIdx - 1 + proj.photos.length) % proj.photos.length;
+          renderProjectDetail(); renderFooter();
+        });
+      }
+    }
+  });
+
+  // ----- HAMBURGER / MOBILE MENU -----
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobile-menu');
+
+  function closeMobileMenu() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    mobileMenu.setAttribute('aria-hidden', 'true');
+  }
+  function openMobileMenu() {
+    hamburger.classList.add('open');
+    mobileMenu.classList.add('open');
+    hamburger.setAttribute('aria-expanded', 'true');
+    mobileMenu.setAttribute('aria-hidden', 'false');
+  }
+
+  hamburger.addEventListener('click', () => {
+    if (hamburger.classList.contains('open')) closeMobileMenu();
+    else openMobileMenu();
+  });
+
+  // Mobile nav items navigate and close the menu
+  mobileMenu.querySelectorAll('[data-view]').forEach(el => {
+    el.addEventListener('click', () => {
+      closeMobileMenu();
+      go(el.dataset.view);
+    });
+  });
+
+  // Close on ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mobileMenu.classList.contains('open')) closeMobileMenu();
+  });
+
+  // ----- MOBILE STACK RENDERERS -----
+
+  function isMobile() {
+    return window.matchMedia('(max-width: 900px)').matches;
+  }
+
+  function renderHomeMobileStack() {
+    const el = document.getElementById('home-mobile-stack');
+    if (!el) return;
+    const intro = `
+      <div class="intro">
+        <p>Born in 1997, I am an Italian journalist and photographer based in Rome.</p>
+      </div>
+    `;
+    const photos = homePhotos.map(p => `
+      <div class="photo-block">
+        <img src="${p.src}" alt="" loading="lazy">
+        ${p.caption ? `<div class="caption">${p.caption}</div>` : ''}
+      </div>
+    `).join('');
+    el.innerHTML = intro + photos;
+  }
+
+  function renderProjectMobileStack() {
+    const proj = projects.find(p => p.id === state.projectId);
+    if (!proj) return;
+    const el = document.getElementById('project-mobile-stack');
+    if (!el) return;
+
+    let html = `<div class="intro">
+      <div class="eyebrow">${proj.title}</div>
+      ${proj.year ? `<div class="byline">${proj.year}</div>` : ''}`;
+    if (proj.description) {
+      const paras = proj.description.split(/\n\s*\n/).map(p => `<p>${p.trim()}</p>`).join('');
+      html += paras;
+    }
+    html += `</div>`;
+
+    html += proj.photos.map(entry => {
+      let block = '<div class="photo-block">';
+      if (entry.interlude) {
+        const paras = entry.interlude.split(/\n\s*\n/).map(p => `<p>${p.trim()}</p>`).join('');
+        block += `<div class="interlude">${paras}</div>`;
+      }
+      if (entry.pair && entry.pair.length === 2) {
+        block += `<div class="diptych-mobile">
+          <img src="${entry.pair[0]}" alt="" loading="lazy">
+          <img src="${entry.pair[1]}" alt="" loading="lazy">
+        </div>`;
+      } else if (entry.src) {
+        block += `<img src="${entry.src}" alt="" loading="lazy">`;
+      }
+      if (entry.caption) {
+        block += `<div class="caption">${entry.caption}</div>`;
+      }
+      block += '</div>';
+      return block;
+    }).join('');
+
+    el.innerHTML = html;
+  }
+
+  // Body class toggled whenever we're in a view that uses the mobile stack.
+  // It's used to hide the footer counter on mobile.
+  function updateMobileStackedBodyClass() {
+    const viewsUsingStack = ['home', 'project-detail'];
+    const should = isMobile() && viewsUsingStack.includes(state.view);
+    document.body.classList.toggle('mobile-stacked', should);
+  }
+
+  // Re-render mobile stack + toggle body class on view changes and resize.
+  const originalRender = render;
+  render = function() {
+    originalRender();
+    if (isMobile()) {
+      if (state.view === 'home') renderHomeMobileStack();
+      if (state.view === 'project-detail') renderProjectMobileStack();
+    }
+    updateMobileStackedBodyClass();
+  };
+
+  // Re-run on window resize/orientation change
+  window.addEventListener('resize', () => {
+    if (isMobile()) {
+      if (state.view === 'home') renderHomeMobileStack();
+      if (state.view === 'project-detail') renderProjectMobileStack();
+    }
+    if (state.view === 'projects') renderProjectsGrid();
+    updateMobileStackedBodyClass();
+  });
+
+  // initial render
+  render();
+</script>
+
+</body>
+</html>
